@@ -1,12 +1,6 @@
 <?php
 
-
-use App\Models\Owner\Flash;
-use App\Models\Admin\Language;
-use App\Models\Owner\Toaster;
-use App\Models\Owner\ExceptModel;
-use App\Repositories\LanguageRepository;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\File;
 
 if (!function_exists('is_connected')) {
     function is_connected()
@@ -63,7 +57,7 @@ if (!function_exists('clearAllStorage')) {
         $dirs = [
             '/storage/debugbar', '/storage/views', '/storage/logs', '/storage/framework/sessions'
         ];
-        foreach ($dirs as $dir){
+        foreach ($dirs as $dir) {
             $file_dir = base_path() . $dir;
             foreach (glob($file_dir . '/*') as $file) {
                 if (!is_dir($file)) {
@@ -97,6 +91,14 @@ if (!function_exists('getVar')) {
             return json_decode(file_get_contents($file), true);
         }
         return [];
+    }
+}
+
+if (!function_exists('setVar')) {
+    function setVar($file, $data)
+    {
+        file_put_contents(resource_path('vars/') . $file . '.json', json_encode($data));
+        return;
     }
 }
 
@@ -291,9 +293,7 @@ if (!function_exists('replaceSpaces')) {
     }
 }
 
-
-if(! function_exists('randomString'))
-{
+if (!function_exists('randomString')) {
     function randomString($length, $type = 'token')
     {
         if ($type === 'password') {
@@ -307,4 +307,52 @@ if(! function_exists('randomString'))
         return $token;
     }
 }
+
+if (!function_exists('addJsonFileInVars')) {
+    function addJsonFileInVars($file)
+    {
+        $chMod = 0775;
+        $varsPath = base_path() . '/resources/vars/';
+        //vars klasörü yoksa
+        if (!file_exists($varsPath)) {
+            File::makeDirectory($varsPath, $chMod, true, true);
+        }
+        // vars içindeki dosyalar silindiginde
+        $json = (object)[];
+        $fileName = $varsPath . $file . '.json';
+        if (!file_exists($fileName)) {
+            file_put_contents($fileName, $json);
+        }
+        return $fileName;
+    }
+}
+
+if (!function_exists('setAddedThemes')) {
+    function setAddedThemes()
+    {
+        $file = 'added-themes';
+        $config = getAddedThemes();
+        setVar($file, $config);
+    }
+}
+
+if (!function_exists('getAddedThemes')) {
+    function getAddedThemes()
+    {
+        $config = [];
+        $themePaths = 'resources/views/themes';
+        foreach (File::directories(base_path($themePaths)) as $type) {
+            //return basename($type); //admins
+            foreach (File::directories($type) as $category) {
+                //return $category;
+                foreach (File::directories($category) as $site) {
+                    //return $site;
+                    $config[basename($type)][basename($category)][] = basename($site);
+                }
+            }
+        }
+        return $config;
+    }
+}
+
 

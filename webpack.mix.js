@@ -45,4 +45,6 @@ mix.js('resources/js/app.js',AdminEShopPublicPath+ 'gorlabs/js')
     ],AdminEShopPublicPath+'gorlabs/css/gorlabs-rtl.css')
     .sourceMaps()
     mix.version()
-        .browserSync('eprepare.test');
+        .browserSync('eshop.test');
+if (mix.inProduction())
+    mix.version();

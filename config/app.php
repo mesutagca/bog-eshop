@@ -176,6 +176,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        \App\Classes\Gorlabs\Themes\ThemeServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         \Torann\GeoIP\GeoIPServiceProvider::class,
 
@@ -196,7 +198,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Image' => \Intervention\Image\Facades\Image::class,
         'GeoIp' => \Torann\GeoIP\Facades\GeoIP::class,
-
+        'Theme'=>\App\Classes\Gorlabs\Themes\Theme::class,
     ])->toArray(),
 
 ];

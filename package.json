@@ -15,7 +15,6 @@
         "autoprefixer": "^10.4.2",
         "axios": "^0.25",
         "browser-sync": "^2.27.9",
-        "browser-sync-webpack-plugin": "^2.3.0",
         "html2canvas": "^1.4.1",
         "inputmask": "^5.0.7",
         "js-cookie": "^3.0.1",
@@ -32,5 +31,8 @@
     },
     "optionalDependencies": {
         "fsevents": "*"
+    },
+    "dependencies": {
+        "browser-sync-webpack-plugin": "^2.3.0"
     }
 }
